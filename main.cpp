@@ -4,12 +4,12 @@ void displayPentagon(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glBegin(GL_POLYGON);
+        glColor3f(0.0, 0.0, 1.0);
         glVertex3f(-0.5, 0.0, 0.0);
-        glVertex3f(0.0, 0.4, 0.0);
+        glVertex3f(0.0, 0.35, 0.0);
         glVertex3f(0.5, 0.0, 0.0);
         glVertex3f(0.3, -0.5, 0.0);
         glVertex3f(-0.3, -0.5, 0.0);
-
     glEnd();
     glFlush();
 }
