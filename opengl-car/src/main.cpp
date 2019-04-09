@@ -86,16 +86,16 @@ int main( void )
 	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
 	// Load the texture
-	GLuint Texture = loadDDS("model/bajaj.dds");
+	GLuint Texture = loadJPG("model/white.jpg");
 	
-	// Get a handle for our "myTextureSampler" uniform
-	GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
+	// Get a handle for our "myTexture" uniform
+	GLuint TextureID  = glGetUniformLocation(programID, "myTexture");
 
 	// Read our .obj file
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals; // Won't be used at the moment.
-	bool res = loadOBJ("model/bajaj.obj", vertices, uvs, normals);
+	bool res = loadOBJ("model/jeep.obj", vertices, uvs, normals);
 
 	// Load it into a VBO
 
@@ -131,7 +131,7 @@ int main( void )
 		// Bind our texture in Texture Unit 0
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Texture);
-		// Set our "myTextureSampler" sampler to use Texture Unit 0
+		// Set our "myTexture1" sampler to use Texture Unit 0
 		glUniform1i(TextureID, 0);
 
 		// 1rst attribute buffer : vertices

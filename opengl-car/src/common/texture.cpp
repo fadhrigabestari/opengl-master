@@ -1,3 +1,4 @@
+#define STB_IMAGE_IMPLEMENTATION
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,6 +6,8 @@
 #include <GL/glew.h>
 
 #include <GLFW/glfw3.h>
+
+#include <stb_image.h>
 
 
 GLuint loadBMP_custom(const char * imagepath){
@@ -215,4 +218,34 @@ GLuint loadDDS(const char * imagepath){
 	return textureID;
 
 
+}
+
+GLuint loadJPG(const char * imagepath) {
+  int width, height, nrChannels;
+  unsigned char *data = stbi_load(imagepath, &width, &height, &nrChannels, 0);
+
+  if (!data) {
+    printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar(); 
+		return 0;
+  }
+
+  // Create one OpenGL texture
+  GLuint textureID;
+  glGenTextures(1, &textureID);
+  glBindTexture(GL_TEXTURE_2D, textureID);
+
+  // ... nice trilinear filtering ...
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+  // ... which requires mipmaps. Generate them automatically.
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+  stbi_image_free(data);
+	
+	// Return the ID of the texture we just created
+  return textureID;
 }
